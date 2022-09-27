@@ -8,9 +8,9 @@ namespace SearchFoldersForJsonFiles
 {
     public static class SourceTreeHelper
     {
-        public static IReadOnlyList<T> GetSourceTree<T>(string wildCard)
+        public static IReadOnlyList<T> GetSourceTree<T>(string wildCard, SearchOption option)
         {
-            string[] files = FileUtils.GetFiles(wildCard);
+            string[] files = FileUtils.GetFiles(wildCard, option);
 
             List<List<T>> listTList = new();
 
@@ -22,31 +22,8 @@ namespace SearchFoldersForJsonFiles
 
             foreach (List<T> tList in listTList)
             {
-                foreach (T t in tList)
-                {
-                    allTList.Add(t);
-                }
-            }
-
-            IReadOnlyList<T> readOnlyList = allTList.AsReadOnly();
-
-            return readOnlyList;
-        }
-
-        public static IReadOnlyList<T> GetSourceTreeWithSubfolders<T>(string wildCard, string extensionToSearch)
-        {
-            string[] files = FileUtils.GetFiles(wildCard);
-
-            List<List<T>> listTList = new();
-
-            for (int i = 0; i < files.Length; i++)
-            {
-                listTList.Add(JsonUtils.JsonDeseralize<List<T>>(files[i]));
-            }
-            List<T> allTList = new();
-
-            foreach (List<T> tList in listTList)
-            {
+                if (tList is null)
+                    continue;
                 foreach (T t in tList)
                 {
                     allTList.Add(t);

@@ -7,7 +7,7 @@ namespace SearchFoldersForJsonFiles
     {
         private static readonly string _appDomain = AppDomain.CurrentDomain.BaseDirectory;
 
-        public static string[] GetFiles(string wildCard)
+        public static string[] GetFiles(string wildCard, SearchOption searchOption)
         {
             string originalWildCard = wildCard;
 
@@ -17,7 +17,7 @@ namespace SearchFoldersForJsonFiles
             // Get absolutepath
             string absPath = Path.GetFullPath(Path.Combine(_appDomain, realDir));
 
-            string[] files = Directory.GetFiles(absPath, pattern, SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(absPath, pattern, searchOption);
             return files;
         }
     }

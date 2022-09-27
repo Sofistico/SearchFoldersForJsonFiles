@@ -1,13 +1,21 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Collections.Generic;
-using System.IO;
 
 namespace SearchFoldersForJsonFiles
 {
     public static class JsonUtils
     {
-        public static T JsonDeseralize<T>(string stream) => JsonConvert.DeserializeObject<T>(File.ReadAllText(stream));
+        public static T JsonDeseralize<T>(string stream)
+        {
+            try
+            {
+               return JsonConvert.DeserializeObject<T>(File.ReadAllText(stream));
+            }
+            catch (Exception)
+            {
+                return default;
+            }
+        }
 
         public static List<T> JsonDeseralize<T>(string[] arrayOfStreams)
         {
